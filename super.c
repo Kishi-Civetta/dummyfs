@@ -985,7 +985,21 @@ static void __exit exit_pram_fs(void)
 	destroy_inodecache();
 	exit_pram_xattr();
 }
+static void __exit exit_pram_fs(void)
+{
+	unregister_filesystem(&pram_fs_type);
+	bdi_destroy(&pram_backing_dev_info);
+	destroy_inodecache();
+	exit_pram_xattr();
+}
 
+static void __exit exit_pram_fs(void)
+{
+	unregister_filesystem(&pram_fs_type);
+	bdi_destroy(&pram_backing_dev_info);
+	destroy_inodecache();
+	exit_pram_xattr();
+}
 MODULE_AUTHOR("Marco Stornelli <marco.stornelli@gmail.com>");
 MODULE_DESCRIPTION("Protected/Persistent RAM Filesystem");
 MODULE_LICENSE("GPL");

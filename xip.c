@@ -30,6 +30,15 @@ ssize_t pram_xip_file_read(struct file *filp, char __user *buf,
 	return res;
 }
 
+ssize_t pram_xip_file_read(struct file *filp, char __user *buf,
+					size_t len, loff_t *ppos)
+{
+	ssize_t res;
+	rcu_read_lock();
+	res = xip_file_read(filp, buf, len, ppos);
+	rcu_read_unlock();
+	return res;
+}
 static int pram_xip_file_fault(struct vm_area_struct *vma, struct vm_fault *vmf)
 {
 	int ret = 0;
@@ -55,6 +64,15 @@ int pram_xip_file_mmap(struct file * file, struct vm_area_struct * vma)
 	return 0;
 }
 
+ssize_t pram_xip_file_read(struct file *filp, char __user *buf,
+					size_t len, loff_t *ppos)
+{
+	ssize_t res;
+	rcu_read_lock();
+	res = xip_file_read(filp, buf, len, ppos);
+	rcu_read_unlock();
+	return res;
+}
 static int pram_find_and_alloc_blocks(struct inode *inode, sector_t iblock,
 				     sector_t *data_block, int create)
 {
